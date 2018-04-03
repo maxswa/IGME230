@@ -8,6 +8,7 @@ let roll = {
 };
 let activeChecker;
 let turn;
+let oldPos;
 let checkerPos;
 let allowDrag = false;
 let stakes = 1;
@@ -27,7 +28,7 @@ initBoard = () => {
 		tempBoard[i] = {player: 0, checkers: 0};
 	}
 	//This represents checkers on the bar:
-	tempBoard[0] = {player1: 0, player2: 0};
+	//tempBoard[0] = {player1: 0, player2: 0};
 	tempBoard[1] = {player: 2, checkers: 2};
 	tempBoard[6] = {player: 1, checkers: 5};
 	tempBoard[8] = {player: 1, checkers: 3};
@@ -38,6 +39,9 @@ initBoard = () => {
 	tempBoard[24] = {player: 1, checkers: 2};
 	//This represents scored checkers:
 	tempBoard[25] = {player1: 0, player2: 0};
+
+	tempBoard[0] = {player1: 2, player2: 2};
+
 
 	return tempBoard;
 }
@@ -165,8 +169,7 @@ setupDragging = () => {
 			else if (newBoard[25].player2 == 15) {
 				endGame(2);
 			}
-
-			if(done || !canMove(turn)) {
+			else if(done || !canMove(turn)) {
 				endMove(true);
 			}
 
@@ -183,6 +186,7 @@ renderCheckers = (layout) => {
 			if(e.target.parentElement === document.querySelector("#bar")) {
 				if(turn == e.target.getAttribute("player")) {
 					activeChecker = e.target;
+					oldPos = activeChecker.parentElement;
 					let coords = activeChecker.getBoundingClientRect();
 					turn == 1 ? checkerPos = 25 : checkerPos = 0;
 					activeChecker.parentElement.removeChild(activeChecker);
@@ -196,6 +200,7 @@ renderCheckers = (layout) => {
 			}
 			else if(newBoard[parseInt(e.target.parentElement.getAttribute("number"))].player == turn){
 				activeChecker = e.target;
+				oldPos = activeChecker.parentElement;
 				let coords = activeChecker.getBoundingClientRect();
 				checkerPos = parseInt(activeChecker.parentElement.getAttribute("number"));
 				activeChecker.parentElement.removeChild(activeChecker);
@@ -265,7 +270,45 @@ startGame = () => {
 }
 
 endGame = (player) => {
+	if(player == 1) {
+		let backGammon = false;
+		for (let i = 1; i < 7; i++) {
+			if(newBoard[i].player == 2) {
+				backGammon = true;
+			}
+		}
+		if(newBoard[0].player2 > 0) {
+			backGammon = true;
+		}
+
+		if(backGammon) {
+			stakes *= 3;
+		}
+		else if(newBoard[25].player2 == 0) {
+			stakes *= 2;
+		}
+	}
+	else {
+		let backGammon = false;
+		for (let i = 19; i < 25; i++) {
+			if(newBoard[i].player == 1) {
+				backGammon = true;
+			}
+		}
+		if(newBoard[0].player1 > 0) {
+			backGammon = true;
+		}
+
+		if(backGammon) {
+			stakes *= 3;
+		}
+		else if(newBoard[25].player1 == 0) {
+			stakes *= 2;
+		}
+	}
+
 	score[player] += stakes;
+	clearBoard();
 	document.querySelector("#player" + player + " .score").innerHTML = score[player];
 	document.querySelector("nav").style.background = "rgba(55, 60, 68, 0.8)";
 
@@ -275,12 +318,15 @@ endGame = (player) => {
 	}
 
 	let nav = document.querySelector("#buttonArea");
+	nav.innerHTML = "";
 	let startBut = document.createElement("button");
 	startBut.id = "start";
 	startBut.appendChild(document.createTextNode("Start Game"));
 	nav.appendChild(startBut);
 	startBut.addEventListener("click", startGame);
 }
+
+otherPlayer = (player) => player == 1 ? 2 : 1; 
 
 newTurn = () => {
 	turn == 1 ? turn = 2 : turn = 1;
@@ -372,9 +418,6 @@ endMove = (move) => {
 		nav.appendChild(undoBut);
 		undoBut.addEventListener("click", undoMoves);
 	}
-	else if (document.querySelector("#undo")){
-		nav.insertBefore(finishBut, document.querySelector("#undo"));
-	}
 	else {
 		nav.appendChild(finishBut);
 	}
@@ -441,7 +484,6 @@ rollDice = () => {
 		roll.doubles = false;
 		//This code is partly from https://stackoverflow.com/a/1129270
 		roll.dice.sort((a, b) => (a.value > b.value) ? 1 : ((b.value > a.value) ? -1 : 0));
-		console.log(roll.dice);
 	}
 
 	let diceArea = document.createElement("div");
@@ -481,17 +523,57 @@ highlightMoves = (moves) => {
 	let points = document.querySelectorAll(".point");
 	let scoreZones =  document.querySelectorAll(".playerZone");
 
-	for (let point of points) {
-		for (let move of moves) {
-			if(point.getAttribute("number") == move) {
-				point.classList.add("highlighted");
+	if(turn == 1) {
+		if(newBoard[0].player1 > 0) {
+			for (let point of points) {
+				for (let move of moves) {
+					if(point.getAttribute("number") == move && point.getAttribute("number") > 18 && oldPos == document.querySelector("#bar")) {
+						point.classList.add("highlighted");
+					}
+				}
+			}
+		}
+		else {
+			for (let point of points) {
+				for (let move of moves) {
+					if(point.getAttribute("number") == move) {
+						point.classList.add("highlighted");
+					}
+				}
+			}
+			for (let zone of scoreZones) {
+				for (let move of moves) {
+					if(zone.getAttribute("number") == move) {
+						zone.classList.add("highlighted");
+					}
+				}
 			}
 		}
 	}
-	for (let zone of scoreZones) {
-		for (let move of moves) {
-			if(zone.getAttribute("number") == move) {
-				zone.classList.add("highlighted");
+	else {
+		if(newBoard[0].player2 > 0) {
+			for (let point of points) {
+				for (let move of moves) {
+					if(point.getAttribute("number") == move && point.getAttribute("number") < 7 && oldPos == document.querySelector("#bar")) {
+						point.classList.add("highlighted");
+					}
+				}
+			}
+		}
+		else{
+			for (let point of points) {
+				for (let move of moves) {
+					if(point.getAttribute("number") == move) {
+						point.classList.add("highlighted");
+					}
+				}
+			}
+			for (let zone of scoreZones) {
+				for (let move of moves) {
+					if(zone.getAttribute("number") == move) {
+						zone.classList.add("highlighted");
+					}
+				}
 			}
 		}
 	}
@@ -560,21 +642,36 @@ canBearOff = (player) => {
 canMove = (player) => {
 	let result = false;
 
-	for (let i = 1; i <= 24; i++) {
-		if (newBoard[i].player == player) {
-			if(availableMoves(player, i).length != 0) {
+	if (player == 1) {
+		if(newBoard[0].player1 > 0) {
+			if(availableMoves(player, 25).length > 0) {
 				result = true;
+			}
+		} 
+		else {
+			for (let i = 1; i <= 24; i++) {
+				if (newBoard[i].player == player) {
+					if(availableMoves(player, i).length != 0) {
+						result = true;
+					}
+				}
 			}
 		}
 	}
-	if (player == 1) {
-		if(newBoard[0].player1 > 0 && availableMoves(player, 25).length == 0) {
-			result = true;
-		}
-	}
 	else {
-		if(newBoard[0].player2 > 0 && availableMoves(player, 0).length == 0) {
-			result = true;
+		if(newBoard[0].player2 > 0) {
+			if(availableMoves(player, 0).length > 0) {
+				result = true;
+			}
+		}
+		else {
+			for (let i = 1; i <= 24; i++) {
+				if (newBoard[i].player == player) {
+					if(availableMoves(player, i).length != 0) {
+						result = true;
+					}
+				}
+			}
 		}
 	}
 

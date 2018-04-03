@@ -38,7 +38,7 @@ button {
 	color: white;
 	height: 100%;
 	padding: 2% 0;
-	width: 40%;
+	width: 30%;
 	border: none;
 	font-size: 1.5vw;
 	border-radius: 5px;
@@ -46,6 +46,7 @@ button {
 	pointer-events:auto;
 	position: relative;
 	float: left;
+	margin-left: 10%;
 }
 
 button:focus {
@@ -119,27 +120,16 @@ button:focus {
 	float: right;
 }
 
-#double {
-	float: right;
-}
-
-#undo {
-	float: right;
-}
-
-#pass {
-	float: right;
-}
-
 #start {
 	background-color: lightgray;
 	color: black;
 	float: none;
+	margin-left: -10%;
 }
 
 #diceArea {
 	position: absolute;
-	left: 15%;
+	left: 18%;
 	width: 20%;
 }
 
@@ -161,8 +151,8 @@ button:focus {
 }
 
 #buttonArea {
-	width: 40%;
-	margin: auto;
+	width: 50%;
+	float: right;
 }
 
 .currentPlayer {
