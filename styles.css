@@ -1,0 +1,274 @@
+* {
+	font-family: 'Roboto', sans-serif;
+}
+
+html, body {
+	width: 100%;
+	height: 100%;
+	background: rgb(55, 60, 68);
+	margin: 0;
+	padding: 0;
+}
+
+h2 {
+	float: left;
+	color: black;
+	margin: 0;
+}
+
+body {
+	max-width: 1200px;
+	margin: auto;
+}
+
+nav {
+	padding-top: 29%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	text-align: center;
+	background: rgba(55, 60, 68, 0.8);
+	pointer-events: none;
+}
+
+button {
+	background-color: gray;
+	color: white;
+	height: 100%;
+	padding: 2% 0;
+	width: 40%;
+	border: none;
+	font-size: 1.5vw;
+	border-radius: 5px;
+	box-shadow: 2px 2px 5px black;
+	pointer-events:auto;
+	position: relative;
+	float: left;
+}
+
+button:focus {
+	outline:0;
+}
+
+#board {
+	width: 80%;
+	padding-top: 52.2%;
+	position: relative;
+	background-image: url("images/board.png");
+    background-repeat: no-repeat;
+    background-size: 100%;
+	margin: auto;
+	margin-top: 5%;
+}
+
+#innerBoard {
+	position:  absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+}
+
+#topLeft {
+	padding: 8% 5% 13% 30%;
+}
+
+
+#topRight {
+	padding: 8% 31% 13% 4%;
+}
+
+/* The rotating is neccessary becasue CSS is the worst and vertical-align doesn't work */
+
+#botLeft {
+	padding: 9% 20% 8% 4%;
+	transform: rotate(180deg);
+}
+
+#botRight {
+	padding: 9% 3% 8% 21%;
+	transform: rotate(180deg);
+}
+
+#bar {
+	float: left;
+	padding-top: 20%;
+	width: 6%;
+	text-align: center;
+}
+
+#info {
+	width: 80%;
+	height: 15%;
+	margin: auto;
+}
+
+#scores {
+	width: 80%;
+	margin: auto;
+	padding-top: 4%;
+}
+
+#player1 {
+	float: left;
+}
+
+#player2 {
+	float: right;
+}
+
+#double {
+	float: right;
+}
+
+#undo {
+	float: right;
+}
+
+#pass {
+	float: right;
+}
+
+#start {
+	background-color: lightgray;
+	color: black;
+	float: none;
+}
+
+#diceArea {
+	position: absolute;
+	left: 15%;
+	width: 20%;
+}
+
+#scoreZone {
+	position: absolute;
+	right: -10%;
+	top: 0;
+	height: 100%;
+	width: 18%;
+}
+
+#p2Zone {
+	margin: 20% 0 0 20%;
+
+}
+
+#p1Zone {
+	margin: 30% 0 0 40%;
+}
+
+#buttonArea {
+	width: 40%;
+	margin: auto;
+}
+
+.currentPlayer {
+	box-shadow: 5px 5px 10px black;
+	transform: scale(1.1, 1.1);
+}
+
+.dummyChecker {
+	width: 10%;
+	margin-right: 4%;
+}
+
+.scoredChecker {
+	transform: skew(-7deg);
+	margin-top: -200%;
+	margin-bottom: -30%;
+	width: 50%;
+}
+
+.playerZone {
+	width: 50%;
+	height: 40%;
+	float: left;
+	transform: skew(7deg);
+}
+
+.die {
+	width: 25%;
+	float: right;
+	user-select: none;
+}
+
+.playerScore {
+	border-radius: 5px;
+	background-color: lightgray;
+	font-size: 1.5vw;
+	width: 40%;
+	padding: 3%;
+}
+
+.topHalf {
+	height: 34.5%;
+}
+
+.botHalf {
+	height: 38.3%;
+}
+
+.half {
+	width: 47%;
+	height: 100%;
+	float: left;
+}
+
+.point {
+	width: 16.66666%;
+	height: 100%;
+	float: left;
+	text-align: center;
+}
+
+.checker {
+	margin-bottom: -20%;
+	width: 90%;
+	user-select: none;
+}
+
+.activeChecker {
+	position: absolute;
+	width: 5%;
+	max-width: 60px;
+}
+
+.highlighted {
+	background: rgba(255, 255, 0, 0.3);
+	border-radius: 2px;
+}
+
+.score {
+	float: right;
+}
+
+#topLeft .point {
+	transform: skew(-3deg);
+}
+
+#botLeft .point {
+	transform: skew(-4deg);
+}
+
+#topRight .point {
+	transform: skew(3deg);
+}
+
+#botRight .point {
+	transform: skew(4deg);
+}
+
+.botHalf .checker {
+	transform: rotate(180deg);
+}
+
+#topRight .checker {
+	transform: scaleX(-1);
+}
+
+#botRight .checker {
+	transform: scaleY(-1);
+}
