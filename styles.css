@@ -1,5 +1,5 @@
 * {
-	font-family: 'Roboto', sans-serif;
+	font-family: 'IBM Plex Sans', sans-serif;
 }
 
 html, body {
@@ -34,23 +34,39 @@ nav {
 }
 
 button {
-	background-color: gray;
-	color: white;
+	font-weight: bold;
+	background: none;
+	color: rgb(55, 60, 68);
+	border-color: rgb(55, 60, 68);
+	border-style: solid;
 	height: 100%;
 	padding: 2% 0;
 	width: 30%;
-	border: none;
 	font-size: 1.5vw;
-	border-radius: 5px;
-	box-shadow: 2px 2px 5px black;
 	pointer-events:auto;
 	position: relative;
 	float: left;
-	margin-left: 10%;
+	margin-left: 9.5%;
+	transition: 0.2s;
 }
 
 button:focus {
-	outline:0;
+	outline: 0;
+}
+
+button:hover {
+	background: rgb(55, 60, 68);
+	color: lightgray;
+}
+
+@media screen and (min-width: 1200px) {
+	button {
+		font-size: 18.28px;
+	}
+
+	h2 {
+		font-size: 27px;
+	}
 }
 
 #board {
@@ -81,16 +97,12 @@ button:focus {
 	padding: 8% 31% 13% 4%;
 }
 
-/* The rotating is neccessary becasue CSS is the worst and vertical-align doesn't work */
-
 #botLeft {
-	padding: 9% 20% 8% 4%;
-	transform: rotate(180deg);
+	padding: 8% 4% 9% 20%;
 }
 
 #botRight {
-	padding: 9% 3% 8% 21%;
-	transform: rotate(180deg);
+	padding: 8% 21% 9% 3%;
 }
 
 #bar {
@@ -121,16 +133,21 @@ button:focus {
 }
 
 #start {
-	background-color: lightgray;
-	color: black;
+	color: lightgray;
+	border-color: lightgray;
 	float: none;
 	margin-left: -10%;
 }
 
+#start:hover {
+	background: lightgray;
+	color: rgb(55, 60, 68);
+}
+
 #diceArea {
 	position: absolute;
-	left: 18%;
-	width: 20%;
+	left: 15%;
+	width: 28%;
 }
 
 #scoreZone {
@@ -155,9 +172,18 @@ button:focus {
 	float: right;
 }
 
+#bottomRail {
+	position: absolute;
+	width: 100%;
+	bottom: 0;
+	left: 0;
+	pointer-events: none;
+}
+
 .currentPlayer {
-	box-shadow: 5px 5px 10px black;
-	transform: scale(1.1, 1.1);
+	/* transform: scale(1.1, 1.1); */
+	transform: translate(-5%, -5%);
+	box-shadow: 5px 5px black;
 }
 
 .dummyChecker {
@@ -186,7 +212,6 @@ button:focus {
 }
 
 .playerScore {
-	border-radius: 5px;
 	background-color: lightgray;
 	font-size: 1.5vw;
 	width: 40%;
@@ -227,12 +252,26 @@ button:focus {
 }
 
 .highlighted {
-	background: rgba(255, 255, 0, 0.3);
+	background: rgba(255, 199, 0, 0.3);
 	border-radius: 2px;
 }
 
 .score {
 	float: right;
+}
+
+.botHalf .checker {
+	position: absolute;
+	bottom: 0;
+	margin-bottom: -12%;
+}
+
+.botHalf .point {
+	text-align: left;
+}
+
+.topHalf .checker {
+	margin-top: -6%;
 }
 
 #topLeft .point {
@@ -251,14 +290,18 @@ button:focus {
 	transform: skew(4deg);
 }
 
-.botHalf .checker {
-	transform: rotate(180deg);
+#topLeft .checker {
+	transform: skew(3deg);
+}
+
+#botLeft .checker {
+	transform: skew(4deg);
 }
 
 #topRight .checker {
-	transform: scaleX(-1);
+	transform: skew(-3deg);
 }
 
 #botRight .checker {
-	transform: scaleY(-1);
+	transform: skew(-4deg);
 }

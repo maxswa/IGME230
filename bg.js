@@ -28,7 +28,7 @@ initBoard = () => {
 		tempBoard[i] = {player: 0, checkers: 0};
 	}
 	//This represents checkers on the bar:
-	//tempBoard[0] = {player1: 0, player2: 0};
+	tempBoard[0] = {player1: 0, player2: 0};
 	tempBoard[1] = {player: 2, checkers: 2};
 	tempBoard[6] = {player: 1, checkers: 5};
 	tempBoard[8] = {player: 1, checkers: 3};
@@ -39,8 +39,6 @@ initBoard = () => {
 	tempBoard[24] = {player: 1, checkers: 2};
 	//This represents scored checkers:
 	tempBoard[25] = {player1: 0, player2: 0};
-
-	tempBoard[0] = {player1: 2, player2: 2};
 
 
 	return tempBoard;
@@ -164,10 +162,10 @@ setupDragging = () => {
 			renderCheckers(newBoard);
 
 			if(newBoard[25].player1 == 15) {
-				endGame(1);
+				endGame(1, false);
 			}
 			else if (newBoard[25].player2 == 15) {
-				endGame(2);
+				endGame(2, false);
 			}
 			else if(done || !canMove(turn)) {
 				endMove(true);
@@ -219,17 +217,26 @@ renderCheckers = (layout) => {
 	let points = document.querySelectorAll(".point");
 
 	for (let point of points) {
+		let lastChecker = null;
 		for (let i = 0; i < layout[point.getAttribute("number")].checkers; i++) {
 			let checker = newChecker(layout[point.getAttribute("number")].player);
 
 			if (point.getAttribute("number") > 12) {
 				checker.style.width = (100 + (i*1.5)) + "%";
+				point.appendChild(checker);
 			}
 			else {
+				checker.style.bottom = i*20 + "%";
 				checker.style.width = (100 - (i*1.5)) + "%";
+				if (lastChecker) {
+					point.insertBefore(checker, lastChecker);
+				}
+				else {
+					point.appendChild(checker);
+				}
+				lastChecker = checker;
 			}
 
-			point.appendChild(checker);
 		}
 	}
 
@@ -269,44 +276,45 @@ startGame = () => {
 	newTurn();
 }
 
-endGame = (player) => {
-	if(player == 1) {
-		let backGammon = false;
-		for (let i = 1; i < 7; i++) {
-			if(newBoard[i].player == 2) {
+endGame = (player, pass) => {
+	if(!pass) {
+		if(player == 1) {
+			let backGammon = false;
+			for (let i = 1; i < 7; i++) {
+				if(newBoard[i].player == 2) {
+					backGammon = true;
+				}
+			}
+			if(newBoard[0].player2 > 0) {
 				backGammon = true;
 			}
-		}
-		if(newBoard[0].player2 > 0) {
-			backGammon = true;
-		}
 
-		if(backGammon) {
-			stakes *= 3;
-		}
-		else if(newBoard[25].player2 == 0) {
-			stakes *= 2;
-		}
-	}
-	else {
-		let backGammon = false;
-		for (let i = 19; i < 25; i++) {
-			if(newBoard[i].player == 1) {
-				backGammon = true;
+			if(backGammon) {
+				stakes *= 3;
+			}
+			else if(newBoard[25].player2 == 0) {
+				stakes *= 2;
 			}
 		}
-		if(newBoard[0].player1 > 0) {
-			backGammon = true;
-		}
+		else {
+			let backGammon = false;
+			for (let i = 19; i < 25; i++) {
+				if(newBoard[i].player == 1) {
+					backGammon = true;
+				}
+			}
+			if(newBoard[0].player1 > 0) {
+				backGammon = true;
+			}
 
-		if(backGammon) {
-			stakes *= 3;
+			if(backGammon) {
+				stakes *= 3;
+			}
+			else if(newBoard[25].player1 == 0) {
+				stakes *= 2;
+			}
 		}
-		else if(newBoard[25].player1 == 0) {
-			stakes *= 2;
-		}
-	}
-
+	} 
 	score[player] += stakes;
 	clearBoard();
 	document.querySelector("#player" + player + " .score").innerHTML = score[player];
@@ -398,7 +406,7 @@ passDouble = () => {
 	let nav = document.querySelector("#buttonArea");
 	nav.innerHTML = "";
 
-	endGame(turn);
+	endGame(turn, true);
 }
 
 endMove = (move) => {
@@ -494,7 +502,7 @@ rollDice = () => {
 		roll.dice[i].taken = false;
 		roll.total += roll.dice[i].value;
 		let newDie = document.createElement("img");
-		newDie.src = "images/dice/" + roll.dice[i].value + ".png";
+		newDie.src = "images/dice/" + turn + "/" + roll.dice[i].value + ".png";
 		newDie.className = "die";
 		newDie.setAttribute("number", i);
 		diceArea.appendChild(newDie);
