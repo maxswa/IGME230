@@ -29,7 +29,6 @@ nav {
 	bottom: 0;
 	right: 0;
 	text-align: center;
-	background: rgba(55, 60, 68, 0.8);
 	pointer-events: none;
 }
 
@@ -133,15 +132,7 @@ button:hover {
 }
 
 #start {
-	color: lightgray;
-	border-color: lightgray;
-	float: none;
-	margin-left: -10%;
-}
-
-#start:hover {
-	background: lightgray;
-	color: rgb(55, 60, 68);
+	margin-left: 30%;
 }
 
 #diceArea {

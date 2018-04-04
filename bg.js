@@ -267,7 +267,6 @@ renderCheckers = (layout) => {
 startGame = () => {
 	let nav = document.querySelector("#buttonArea");
 	nav.removeChild(document.querySelector("#start"));
-	document.querySelector("nav").style.background = "rgba(55, 60, 68, 0.0)";
 
 	board = initBoard();
 	renderCheckers(board);
@@ -318,7 +317,6 @@ endGame = (player, pass) => {
 	score[player] += stakes;
 	clearBoard();
 	document.querySelector("#player" + player + " .score").innerHTML = score[player];
-	document.querySelector("nav").style.background = "rgba(55, 60, 68, 0.8)";
 
 	let curPlayer = document.querySelectorAll(".currentPlayer");
 	for (let element of curPlayer) {
