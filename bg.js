@@ -236,7 +236,6 @@ renderCheckers = (layout) => {
 				}
 				lastChecker = checker;
 			}
-
 		}
 	}
 
@@ -316,7 +315,7 @@ endGame = (player, pass) => {
 	} 
 	score[player] += stakes;
 	clearBoard();
-	document.querySelector("#player" + player + " .score").innerHTML = score[player];
+	document.querySelector("#player" + player + " .score").textContent = score[player];
 
 	let curPlayer = document.querySelectorAll(".currentPlayer");
 	for (let element of curPlayer) {
@@ -324,7 +323,10 @@ endGame = (player, pass) => {
 	}
 
 	let nav = document.querySelector("#buttonArea");
-	nav.innerHTML = "";
+	while (nav.firstChild) {
+		nav.removeChild(nav.firstChild);
+	}
+
 	let startBut = document.createElement("button");
 	startBut.id = "start";
 	startBut.appendChild(document.createTextNode("Start Game"));
@@ -367,7 +369,9 @@ proposeDouble = () => {
 	let takeBut = document.createElement("button");
 	let passBut = document.createElement("button");
 
-	nav.innerHTML = "";
+	while (nav.firstChild) {
+		nav.removeChild(nav.firstChild);
+	}
 
 	takeBut.id = "take";
 	takeBut.appendChild(document.createTextNode("Take"));
@@ -392,7 +396,9 @@ doubleStakes = () => {
 	let dubBut = document.createElement("button");
 
 	stakes *= 2;
-	nav.innerHTML = "";
+	while (nav.firstChild) {
+		nav.removeChild(nav.firstChild);
+	}
 
 	rollBut.id = "roll";
 	rollBut.appendChild(document.createTextNode("Roll Dice"));
@@ -402,7 +408,9 @@ doubleStakes = () => {
 
 passDouble = () => {
 	let nav = document.querySelector("#buttonArea");
-	nav.innerHTML = "";
+	while (nav.firstChild) {
+		nav.removeChild(nav.firstChild);
+	}
 
 	endGame(turn, true);
 }
@@ -599,14 +607,25 @@ clearHighlights = () => {
 
 clearBoard = () => {
 	let points = document.querySelectorAll(".point");
+	let bar = document.querySelector("#bar");
+	let p1Zone = document.querySelector("#p1Zone");
+	let p2Zone = document.querySelector("#p2Zone");
 
 	for (let point of points) {
-		point.innerHTML = "";
+		while (point.firstChild) {
+			point.removeChild(point.firstChild);
+		}
 	}
 
-	document.querySelector("#bar").innerHTML = "";
-	document.querySelector("#p1Zone").innerHTML = "";
-	document.querySelector("#p2Zone").innerHTML = "";
+	while (bar.firstChild) {
+		bar.removeChild(bar.firstChild);
+	}
+	while (p1Zone.firstChild) {
+		p1Zone.removeChild(p1Zone.firstChild);
+	}
+	while (p2Zone.firstChild) {
+		p2Zone.removeChild(p2Zone.firstChild);
+	}
 }
 
 newChecker = (player) => {

@@ -14,6 +14,7 @@ h2 {
 	float: left;
 	color: black;
 	margin: 0;
+	font-size: 4vw;
 }
 
 body {
@@ -64,7 +65,7 @@ button:hover {
 	}
 
 	h2 {
-		font-size: 27px;
+		font-size: 47.92px;
 	}
 }
 
@@ -172,14 +173,12 @@ button:hover {
 }
 
 .currentPlayer {
-	/* transform: scale(1.1, 1.1); */
 	transform: translate(-5%, -5%);
 	box-shadow: 5px 5px black;
 }
 
 .dummyChecker {
-	width: 10%;
-	margin-right: 4%;
+	width: 18%;
 }
 
 .scoredChecker {
@@ -200,6 +199,7 @@ button:hover {
 	width: 25%;
 	float: right;
 	user-select: none;
+	transition: 0.1s;
 }
 
 .playerScore {
@@ -207,6 +207,7 @@ button:hover {
 	font-size: 1.5vw;
 	width: 40%;
 	padding: 3%;
+	transition: 0.2s;
 }
 
 .topHalf {
@@ -228,6 +229,7 @@ button:hover {
 	height: 100%;
 	float: left;
 	text-align: center;
+	transition: 0.2s;
 }
 
 .checker {
