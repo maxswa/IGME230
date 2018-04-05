@@ -1,4 +1,6 @@
+//The array that stores all checker positions:
 let board = [];
+//Used as a copy of the board so moves can be un-done:
 let newBoard = [];
 let score = [];
 let roll = {
@@ -21,6 +23,7 @@ window.onload = () => {
 	document.querySelector("#start").addEventListener("click", startGame);
 }
 
+//Sets up the board with checkers in the proper staring positions:
 initBoard = () => {
 	let tempBoard = [];
 
@@ -44,6 +47,7 @@ initBoard = () => {
 	return tempBoard;
 }
 
+//Sets up the event handler methods that make click and drag work:
 setupDragging = () => {
 	document.onmousemove = (e) => {
 		e.preventDefault();
@@ -177,6 +181,7 @@ setupDragging = () => {
 	}
 }
 
+//Renders the checkers to their respective points based on the board array:
 renderCheckers = (layout) => {
 	doMousedown = (e) => {
 		e.preventDefault();
@@ -263,6 +268,7 @@ renderCheckers = (layout) => {
 	}
 }
 
+//Removes the start button, intializes the board and renders the checkers, also sets turn to player 1 and resets the cube:
 startGame = () => {
 	let nav = document.querySelector("#buttonArea");
 	nav.removeChild(document.querySelector("#start"));
@@ -274,6 +280,7 @@ startGame = () => {
 	newTurn();
 }
 
+//Figures out who won and if its a gammon/backgammon, then changes scores accordingly:
 endGame = (player, pass) => {
 	if(!pass) {
 		if(player == 1) {
@@ -334,8 +341,10 @@ endGame = (player, pass) => {
 	startBut.addEventListener("click", startGame);
 }
 
+//Returns the number of the player opposite to the parameter:
 otherPlayer = (player) => player == 1 ? 2 : 1; 
 
+//Changes the turn variable and the buttons with event listeners accordingly:
 newTurn = () => {
 	turn == 1 ? turn = 2 : turn = 1;
 
@@ -358,6 +367,7 @@ newTurn = () => {
 	dubBut.addEventListener("click", proposeDouble);
 }
 
+//Renders take/pass buttons and assigns event listeners:
 proposeDouble = () => {
 	let other = (turn == 1) ? 2 : 1;
 	let curPlayer = document.querySelector(".currentPlayer");
@@ -385,6 +395,7 @@ proposeDouble = () => {
 	passBut.addEventListener("click", passDouble);
 }
 
+//Doubles the stakes variable, removes take/pass buttons and adds roll button with event listener:
 doubleStakes = () => {
 	let curPlayer = document.querySelector(".currentPlayer");
 	curPlayer.classList.remove("currentPlayer");
@@ -393,7 +404,6 @@ doubleStakes = () => {
 
 	let nav = document.querySelector("#buttonArea");
 	let rollBut = document.createElement("button");
-	let dubBut = document.createElement("button");
 
 	stakes *= 2;
 	while (nav.firstChild) {
@@ -406,6 +416,7 @@ doubleStakes = () => {
 	rollBut.addEventListener("click", rollDice);
 }
 
+//Removes all buttons and calls endGame:
 passDouble = () => {
 	let nav = document.querySelector("#buttonArea");
 	while (nav.firstChild) {
@@ -415,6 +426,7 @@ passDouble = () => {
 	endGame(turn, true);
 }
 
+//Adds finish turn button and, if a move was made, the undo button:
 endMove = (move) => {
 	allowDrag = false;
 	let nav = document.querySelector("#buttonArea");
@@ -440,6 +452,7 @@ endMove = (move) => {
 	finishBut.addEventListener("click", finishTurn);
 }
 
+//Updates the board with the moves taken, updates buttons:
 finishTurn = () => {
 	let nav = document.querySelector("#buttonArea");
 	let curPlayer = document.querySelector("#player" + turn);
@@ -455,6 +468,7 @@ finishTurn = () => {
 	newTurn();
 }
 
+//Resets the board to it's old state and then calls renderCheckers, removes button:
 undoMoves = () => {
 	let nav = document.querySelector("#buttonArea");
 	let diceImages = document.querySelectorAll(".die");
@@ -476,6 +490,7 @@ undoMoves = () => {
 	nav.removeChild(document.querySelector("#undo"));
 }
 
+//Generates two random numbers and updates the roll object:
 rollDice = () => {
 	let nav = document.querySelector("#buttonArea");
 	newBoard = cloneBoard(board);
@@ -525,6 +540,7 @@ rollDice = () => {
 	}
 }
 
+//This function was necessary to copy the board by value instead of reference:
 cloneBoard = (original) => {
 	let copy = [];
 	for (let i = 0; i < original.length; i++) {
@@ -533,6 +549,7 @@ cloneBoard = (original) => {
 	return copy;
 }
 
+//Highlights points on the board that are valid moves for the selected checker:
 highlightMoves = (moves) => {
 	let points = document.querySelectorAll(".point");
 	let scoreZones =  document.querySelectorAll(".playerZone");
@@ -593,6 +610,7 @@ highlightMoves = (moves) => {
 	}
 }
 
+//Clears the highlight class from all points:
 clearHighlights = () => {
 	let points = document.querySelectorAll(".point");
 	let scoreZones =  document.querySelectorAll(".playerZone");
@@ -605,6 +623,7 @@ clearHighlights = () => {
 	}
 }
 
+//Removes all checker elements from all points:
 clearBoard = () => {
 	let points = document.querySelectorAll(".point");
 	let bar = document.querySelector("#bar");
@@ -628,6 +647,7 @@ clearBoard = () => {
 	}
 }
 
+//Creates a new checker node with appropriate attributes:
 newChecker = (player) => {
 	let checker = document.createElement("img");
 	checker.src = "images/checkers/" + player + ".png";
@@ -637,6 +657,7 @@ newChecker = (player) => {
 	return checker;
 }
 
+//Returns true if it's legal for the player to bear off checkers:
 canBearOff = (player) => {
 	let bearOff = true;
 
@@ -664,6 +685,7 @@ canBearOff = (player) => {
 	return bearOff;
 }
 
+//Returns false if there are no leagal moves for a player based on their roll:
 canMove = (player) => {
 	let result = false;
 
@@ -703,6 +725,7 @@ canMove = (player) => {
 	return result;
 }
 
+//Returns an array of points that can be moved to based on the active checker location and roll:
 availableMoves = (player, checkerLoc) => {
 	let moves = [];
 	let bearOff = canBearOff(player);
@@ -756,6 +779,7 @@ availableMoves = (player, checkerLoc) => {
 	return moves;
 }
 
+//Returns the location of the checker furthest from the scoring zone of the player:
 furthestChecker = (player) => {
 	if (player == 1) {
 		for(let i = 24; i > 0; i--) {
@@ -773,6 +797,7 @@ furthestChecker = (player) => {
 	}
 }
 
+//Returns true if the point is unoccupied, occupied by friendly checkers or occupied by a single enemy checker:
 validMove = (player, point) => {
 	return (board[point].player == player || board[point].player == 0) ? true : (board[point].checkers == 1) ? true : false;
 }
