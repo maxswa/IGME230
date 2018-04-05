@@ -33,6 +33,14 @@ nav {
 	pointer-events: none;
 }
 
+h1 {
+	margin-top: 0;
+}
+
+a {
+	color: lightgray;
+}
+
 button {
 	font-weight: bold;
 	background: none;
@@ -143,6 +151,20 @@ button:hover {
 #p2Zone {
 	margin: 20% 0 0 20%;
 
+}
+
+#doc {
+	width: 4%;
+	position: absolute;
+	left: 0.5%;
+	bottom: 1%;
+}
+
+#docs {
+	padding-top: 5%;
+	width: 80%;
+	color: lightgray;
+	margin: auto;
 }
 
 #p1Zone {
