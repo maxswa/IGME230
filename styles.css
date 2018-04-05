@@ -59,16 +59,6 @@ button:hover {
 	color: lightgray;
 }
 
-@media screen and (min-width: 1200px) {
-	button {
-		font-size: 18.28px;
-	}
-
-	h2 {
-		font-size: 47.92px;
-	}
-}
-
 #board {
 	width: 80%;
 	padding-top: 52.2%;
@@ -170,6 +160,25 @@ button:hover {
 	bottom: 0;
 	left: 0;
 	pointer-events: none;
+}
+
+#credits {
+	font-size: 2vw;
+	color: lightgray;
+	width: 80%;
+	position: absolute;
+	left: 10%;
+	bottom: 1%;
+}
+
+.creator {
+	float: left;
+	margin-left: 10%;
+}
+
+.art {
+	float: right;
+	margin-right: 10%;
 }
 
 .currentPlayer {
@@ -297,4 +306,28 @@ button:hover {
 
 #botRight .checker {
 	transform: skew(-4deg);
+}
+
+@media screen and (min-width: 1200px) {
+	button {
+		font-size: 18.28px;
+	}
+
+	h2 {
+		font-size: 47.92px;
+	}
+
+	#credits {
+		font-size: 24px;
+		width: 100vw;
+		left: 0;
+	}
+
+	.creator {
+		margin-left: 30%;
+	}
+
+	.art {
+		margin-right: 30%;
+	}
 }
